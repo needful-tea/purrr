@@ -1,0 +1,153 @@
+version: "2"
+
+linters:
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - canonicalheader
+    - containedctx
+    - contextcheck
+    - copyloopvar
+    - depguard
+    - dupl
+    - dupword
+    - embeddedstructfieldcheck
+    - errcheck
+    - errchkjson
+    - errname
+    - errorlint
+    - exptostd
+    - fatcontext
+    - gocheckcompilerdirectives
+    - goconst
+    - gocritic
+    - godoclint
+    - godot
+    - godox
+    - gosec
+    - gosmopolitan
+    - govet
+    - iface
+    - importas
+    - ineffassign
+    - intrange
+    - mirror
+    - misspell
+    - modernize
+    - musttag
+    - noctx
+    - nolintlint
+    - nosprintfhostport
+    - paralleltest
+    - perfsprint
+    - predeclared
+    - protogetter
+    - recvcheck
+    - revive
+    - rowserrcheck
+    - sloglint
+    - sqlclosecheck
+    - staticcheck
+    - thelper
+    - tparallel
+    - unconvert
+    - unparam
+    - unused
+    - usestdlibvars
+    - usetesting
+    - wrapcheck
+
+  exclusions:
+    rules:
+      - linters:
+          - errcheck
+        source: "defer .*Close()"
+
+  settings:
+    depguard:
+      rules:
+        slog-only:
+          list-mode: lax
+          deny:
+            - pkg: "log$"
+              desc: use log/slog instead
+            - pkg: github.com/rs/zerolog
+              desc: use log/slog instead
+            - pkg: github.com/sirupsen/logrus
+              desc: use log/slog instead
+            - pkg: go.uber.org/zap
+              desc: use log/slog instead
+    errcheck:
+      check-type-assertions: true
+    goconst:
+      ignore-tests: true
+    gocritic:
+      enable-all: true
+      disabled-checks:
+        - unnamedResult
+    godoclint:
+      default: all
+      options:
+        max-len:
+          length: 120
+        require-doc:
+          ignore-exported: true
+    godot:
+      scope: all
+      capital: true
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment
+        - shadow
+    iface:
+      enable:
+        - identical
+        - unexported
+    misspell:
+      locale: US
+    nolintlint:
+      allow-unused: false
+      require-explanation: true
+      require-specific: true
+    paralleltest:
+      check-cleanup: true
+    predeclared:
+      qualified-name: true
+    rowserrcheck:
+      packages:
+        - github.com/jackc/pgx/v5
+    sloglint:
+      attr-only: true
+      key-naming-case: snake
+    wrapcheck:
+      ignore-package-globs:
+        - os
+        - github.com/pelletier/go-toml/*
+
+formatters:
+  enable:
+    - gci
+    - gofumpt
+    - golines
+
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/needful-tea/purrr)
+    gofumpt:
+      module-path: github.com/needful-tea/purrr
+      extra:
+        clothe-returns: true
+        balance-calls: true
+    golines:
+      max-len: 130
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  fix: true
